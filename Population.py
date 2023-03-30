@@ -37,6 +37,12 @@ class Population:
             print(self.selected[i].eval())
         print()
 
+    def print_crossed(self):
+        for i in range(self.size):
+            self.to_mutate[i].print_chrom()
+            print(self.to_mutate[i].eval())
+        print()
+
     # prop_selection() performs proportional selection and roulette wheel sampling on the current population
 
     def prop_selection(self):
@@ -89,3 +95,43 @@ class Population:
 
         self.chromosomes.clear()
 
+    def crossover(self, prob_c):
+
+        # Picks pairs of chromosomes and performs crossover
+
+        iterations = int(self.size / 2)
+
+        # When two chromosomes are picked, they are removed from the selected list
+
+        for i in range(iterations):
+            index1 = random.randint(0, (len(self.selected) - 1))
+            chrom1 = self.selected[index1]
+            del self.selected[index1]
+
+            index2 = random.randint(0, (len(self.selected) - 1))
+            chrom2 = self.selected[index2]
+            del self.selected[index2]
+
+            # Calculates whether crossover occurs, and if so generates the single point at which it does
+
+            if random.uniform(0, 1) < prob_c:
+
+                # Performs the crossover using the gene_swap function
+
+                self.gene_swap(chrom1, chrom2)
+
+            # Adds the crossed chromosomes back into the population's chromosome list
+
+            self.to_mutate.append(chrom1)
+            self.to_mutate.append(chrom2)
+
+        self.to_mutate.append(self.selected[0])
+
+    # gene_swap() performs a gene swap operation for two chromosomes starting at a randomized point
+    def gene_swap(self, first_chrom, second_chrom):
+        point = random.randint(1, len(first_chrom.bitstring) - 1)
+        print(point)
+        child1 = (first_chrom.bitstring[0:point] + second_chrom.bitstring[point:])
+        child2 = (second_chrom.bitstring[0:point] + first_chrom.bitstring[point:])
+        first_chrom.bitstring = child1
+        second_chrom.bitstring = child2
