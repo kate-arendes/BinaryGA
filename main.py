@@ -1,3 +1,6 @@
+# Kate Arendes - CS 5320 - Project 3 - main.py
+# This program uses a simple binary genetic algorithm to minimize f(x) = X1^2 + X2^2 + X3^2 with given parameters
+
 from Population import Population
 from Chromosome import Chromosome
 import random
