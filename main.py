@@ -4,6 +4,8 @@ import random
 import math
 import statistics
 
+RUNS = 30
+
 
 def evolve(members, mem_min, mem_max, generations, cross_prob, mut_prob):
     pop = Population(members, mem_min, mem_max)
@@ -30,26 +32,37 @@ def evolve(members, mem_min, mem_max, generations, cross_prob, mut_prob):
 
 if __name__ == '__main__':
 
+    print("\nPlease enter the following algorithm parameters:\n")
+
+    pop_size = int(input("Population size: "))
+    num_generations = int(input("Number of generations: "))
+    crossover_probability = float(input("Probability that crossover will occur: "))
+    mutation_probability = float(input("Probability that mutation will occur: "))
+
+    print("\nRunning the genetic algorithm . . .\n")
+
     best_solutions = []
     best_f_vals = []
 
     overall_f_best = math.inf
     overall_best_chrom = Chromosome(0, 0)
 
-    for i in range(30):
-        random.seed(i)
-        best_solutions.append(evolve(30, -7.0, 4, 50, 0.8, 0.1))
-        best_f_vals.append(best_solutions[i].eval())
-        if best_solutions[i].eval() < overall_f_best:
-            overall_best_chrom = best_solutions[i]
-            overall_f_best = best_solutions[i].eval()
+    for j in range(RUNS):
+        random.seed(j)
+        best_solutions.append(evolve(pop_size, -7.0, 4, num_generations, crossover_probability, mutation_probability))
+        best_f_vals.append(best_solutions[j].eval())
+        if best_solutions[j].eval() < overall_f_best:
+            overall_best_chrom = best_solutions[j]
+            overall_f_best = best_solutions[j].eval()
 
-    print("\nResults from Thirty Independent Runs:\n")
-    print("Best: " + str(overall_f_best))
-    print("Mean: " + str(statistics.mean(best_f_vals)))
-    print("Stdev: " + str(statistics.stdev(best_f_vals)))
+    print("\n============ Results from Thirty Independent Runs ============\n")
+    print("Overall Best Fitness Value: " + str('{:.30f}'.format(overall_f_best)))
+    print("Mean of Best Fitness Values: " + str('{:.30f}'.format(statistics.mean(best_f_vals))))
+    print("Stdev of Best Fitness Values: " + str('{:.30f}'.format(statistics.stdev(best_f_vals))))
 
-    print("\n\nBest Overall Solution\n")
-    print("Chromosome: " + overall_best_chrom.bitstring)
-    print("Gene Vector: ", end='')
+    print("\n\n==================== Best Overall Solution ====================\n")
+    print("Bit-String Chromosome:\n" + overall_best_chrom.bitstring)
+    print("\nFloating-Point Gene Vector: ")
     overall_best_chrom.print_genes()
+    print("\nFitness Value:\n" + str('{:.30f}'.format(overall_f_best)))
+    print()

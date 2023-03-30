@@ -54,4 +54,4 @@ class Chromosome:
                     self.bitstring = ''.join(edited_string)
 
     def print_genes(self):
-        print("(" + str(self.float_x1) + ", " + str(self.float_x2) + ", " + str(self.float_x3) + ")")
+        print("(" + str('{:.30f}'.format(self.float_x1)) + ",\n" + str('{:.30f}'.format(self.float_x2)) + ",\n" + str('{:.30f}'.format(self.float_x3)) + ")")
