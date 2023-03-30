@@ -12,6 +12,9 @@ class Chromosome:
     def __init__(self, minimum, maximum):
         self.min = minimum
         self.max = maximum
+        self.float_x1 = 0.0
+        self.float_x2 = 0.0
+        self.float_x3 = 0.0
         self.bitstring = ""
 
         for i in range(GENE1LENGTH + GENE2LENGTH + GENE3LENGTH):
@@ -32,11 +35,11 @@ class Chromosome:
     def eval(self):
         gene_range = (self.max - self.min)
 
-        float_x1 = ((int(self.bitstring[0:GENE1LENGTH], 2)) / (2 ** GENE1LENGTH - 1)) * gene_range + self.min
-        float_x2 = ((int(self.bitstring[GENE1LENGTH:GENE1LENGTH + GENE2LENGTH], 2)) / (2 ** GENE2LENGTH - 1)) * gene_range + self.min
-        float_x3 = ((int(self.bitstring[GENE1LENGTH + GENE2LENGTH:], 2)) / (2 ** GENE3LENGTH - 1)) * gene_range + self.min
+        self.float_x1 = ((int(self.bitstring[0:GENE1LENGTH], 2)) / (2 ** GENE1LENGTH - 1)) * gene_range + self.min
+        self.float_x2 = ((int(self.bitstring[GENE1LENGTH:GENE1LENGTH + GENE2LENGTH], 2)) / (2 ** GENE2LENGTH - 1)) * gene_range + self.min
+        self.float_x3 = ((int(self.bitstring[GENE1LENGTH + GENE2LENGTH:], 2)) / (2 ** GENE3LENGTH - 1)) * gene_range + self.min
 
-        return float_x1**2 + float_x2**2 + float_x3**2
+        return self.float_x1**2 + self.float_x2**2 + self.float_x3**2
 
     def mutate(self, prob_mutate):
         for i in range(len(self.bitstring)):
@@ -49,3 +52,6 @@ class Chromosome:
                     edited_string = list(self.bitstring)
                     edited_string[i] = '1'
                     self.bitstring = ''.join(edited_string)
+
+    def print_genes(self):
+        print("(" + str(self.float_x1) + ", " + str(self.float_x2) + ", " + str(self.float_x3) + ")")

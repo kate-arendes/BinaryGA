@@ -1,5 +1,6 @@
 from Chromosome import Chromosome
 import random
+import math
 
 
 class Population:
@@ -43,6 +44,15 @@ class Population:
             self.to_mutate[i].print_chrom()
             print(self.to_mutate[i].eval())
         print()
+
+    def get_best(self):
+        f_best = math.inf
+        best_chrom = Chromosome(0, 0)
+        for i in range(self.size):
+            if self.chromosomes[i].eval() < f_best:
+                f_best = self.chromosomes[i].eval()
+                best_chrom = self.chromosomes[i]
+        return best_chrom
 
     # prop_selection() performs proportional selection and roulette wheel sampling on the current population
 
