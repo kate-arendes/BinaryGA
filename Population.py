@@ -1,6 +1,7 @@
 from Chromosome import Chromosome
 import random
 
+
 class Population:
 
     # Initialize population with specified number of chromosomes with genes in given range
@@ -125,13 +126,19 @@ class Population:
             self.to_mutate.append(chrom1)
             self.to_mutate.append(chrom2)
 
-        self.to_mutate.append(self.selected[0])
+        if self.selected:
+            self.to_mutate.append(self.selected[0])
 
     # gene_swap() performs a gene swap operation for two chromosomes starting at a randomized point
     def gene_swap(self, first_chrom, second_chrom):
         point = random.randint(1, len(first_chrom.bitstring) - 1)
-        print(point)
         child1 = (first_chrom.bitstring[0:point] + second_chrom.bitstring[point:])
         child2 = (second_chrom.bitstring[0:point] + first_chrom.bitstring[point:])
         first_chrom.bitstring = child1
         second_chrom.bitstring = child2
+
+    def mutation(self, prob_m):
+        for i in range(len(self.to_mutate)):
+            self.to_mutate[i].mutate(prob_m)
+            self.chromosomes.append(self.to_mutate[i])
+        self.to_mutate.clear()
