@@ -1,7 +1,12 @@
+# Kate Arendes - CS 5320 - Project 3 - Population.py
+# This file contains the Population class to manage Chromosomes for the simple binary genetic algorithm in main.py
+
 from Chromosome import Chromosome
 import random
 import math
 
+
+# Population holds a given number of chromosomes
 
 class Population:
 
@@ -13,7 +18,8 @@ class Population:
         self.alpha = alpha
         self.beta = beta
 
-        # Lists to store initial chromosomes and chromosomes during selection process
+        # Lists to store initial chromosomes and chromosomes during execution of the GA
+
         self.chromosomes = []
         self.selected = []
         self.to_mutate = []
@@ -23,27 +29,7 @@ class Population:
         for i in range(size):
             self.chromosomes.append(Chromosome(alpha, beta))
 
-            # Print all chromosomes in a population (for testing)
-
-    def print_pop(self):
-        for i in range(self.size):
-            self.chromosomes[i].print_chrom()
-            print(self.chromosomes[i].eval())
-        print()
-
-    # Prints selected chromosomes from the population (for testing)
-
-    def print_selected(self):
-        for i in range(len(self.selected)):
-            self.selected[i].print_chrom()
-            print(self.selected[i].eval())
-        print()
-
-    def print_crossed(self):
-        for i in range(self.size):
-            self.to_mutate[i].print_chrom()
-            print(self.to_mutate[i].eval())
-        print()
+    # get_best() returns the chromosome with the best fitness value in the population
 
     def get_best(self):
         f_best = math.inf
@@ -57,6 +43,7 @@ class Population:
     # prop_selection() performs proportional selection and roulette wheel sampling on the current population
 
     def prop_selection(self):
+
         fitnesses = []
         probabilities = []
 
@@ -106,6 +93,8 @@ class Population:
 
         self.chromosomes.clear()
 
+    # crossover() takes a probability of crossover and uses the value to determine if two chromosomes will be crossed
+
     def crossover(self, prob_c):
 
         # Picks pairs of chromosomes and performs crossover
@@ -123,11 +112,9 @@ class Population:
             chrom2 = self.selected[index2]
             del self.selected[index2]
 
-            # Calculates whether crossover occurs, and if so generates the single point at which it does
+            # Calculates whether crossover occurs and if so, performs the crossover using gene_swap()
 
             if random.uniform(0, 1) < prob_c:
-
-                # Performs the crossover using the gene_swap function
 
                 self.gene_swap(chrom1, chrom2)
 
@@ -136,16 +123,30 @@ class Population:
             self.to_mutate.append(chrom1)
             self.to_mutate.append(chrom2)
 
+        # If there's an odd population size, the last chromosome is added to the list of chromosomes to be mutated
+
         if self.selected:
             self.to_mutate.append(self.selected[0])
 
     # gene_swap() performs a gene swap operation for two chromosomes starting at a randomized point
+
     def gene_swap(self, first_chrom, second_chrom):
+
+        # Generate crossover point
+
         point = random.randint(1, len(first_chrom.bitstring) - 1)
+
+        # Create resulting child bit strings
+
         child1 = (first_chrom.bitstring[0:point] + second_chrom.bitstring[point:])
         child2 = (second_chrom.bitstring[0:point] + first_chrom.bitstring[point:])
+
+        # Replace parental bit strings with children's bit string
+
         first_chrom.bitstring = child1
         second_chrom.bitstring = child2
+
+    # mutation() calls mutation() method of each chromosome with a given probability of mutation
 
     def mutation(self, prob_m):
         for i in range(len(self.to_mutate)):
