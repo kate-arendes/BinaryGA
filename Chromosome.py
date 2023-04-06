@@ -13,7 +13,7 @@ GENE3LENGTH = 25
 # The Chromosome class represents a set of genes, or X vector, used to evaluate an objective function
 class Chromosome:
 
-    # Generate initial genes in range minimum, maximum
+    # Generate initial genes in the range minimum to maximum
 
     def __init__(self, minimum, maximum):
         self.min = minimum

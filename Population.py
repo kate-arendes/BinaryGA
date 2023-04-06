@@ -1,5 +1,5 @@
 # Kate Arendes - CS 5320 - Project 3 - Population.py
-# This file contains the Population class to manage Chromosomes for the simple binary genetic algorithm in main.py
+# This file contains the Population class that manages Chromosomes for the simple binary genetic algorithm in main.py
 
 from Chromosome import Chromosome
 import random

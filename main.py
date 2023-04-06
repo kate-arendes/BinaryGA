@@ -7,12 +7,12 @@ import random
 import math
 import statistics
 
-# Number of independent rungs of the genetic algorithm
+# Number of independent runs of the genetic algorithm
 
 RUNS = 30
 
 
-# evolve() takes all algorithm and problem parameters and runs the GA a given number of times
+# evolve() takes algorithm and problem parameters and runs the GA a given number of times, returning the best solution
 
 def evolve(members, mem_min, mem_max, generations, cross_prob, mut_prob):
 
