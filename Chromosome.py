@@ -1,4 +1,4 @@
-# Kate Arendes - CS 5320 - Project 3 - Chromosome.py
+# Kate Arendes - Chromosome.py
 # This file contains the Chromosome class used in the simple binary genetic algorithm in main.py
 
 import random

@@ -1,4 +1,4 @@
-# Kate Arendes - CS 5320 - Project 3 - main.py
+# Kate Arendes - main.py
 # This program uses a simple binary genetic algorithm to minimize f(x) = X1^2 + X2^2 + X3^2 for -7.0 <= Xi <= 4.0
 
 from Population import Population
